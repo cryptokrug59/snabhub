@@ -133,7 +133,7 @@ function Index() {
                 <br />
                 <span className="text-gradient-hero">для вашего дела.</span>
               </h1>
-              <p className="text-lg md:text-xl text-slate-300 mb-8 max-w-lg leading-relaxed">От ГСМ и стройматериалов до электроинструмента и сельхозпродукции. Всё, что нужно для работы, в одном месте. Плюс профессиональные строительные услуги.</p>
+              <p className="text-lg md:text-xl text-slate-300 mb-8 max-w-lg leading-relaxed">От ГСМ и стройматериалов до электроинструмента и СИЗ. Всё, что нужно для работы, в одном месте. Плюс профессиональные строительные услуги.</p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <button onClick={() => handleScroll('contact')} className="bg-brand-accent text-brand-dark px-8 py-4 rounded-lg font-bold text-lg hover:bg-amber-400 transition-all shadow-brand transform hover:scale-105">
                   Рассчитать заявку
