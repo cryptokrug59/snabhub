@@ -73,7 +73,7 @@ function Index() {
                 Отзывы
               </button>
               <button onClick={() => handleScroll('contact')} className="bg-brand-primary text-white px-6 py-2 rounded-full font-bold hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                Заказать снабжение
+                Оставить заявку 
               </button>
             </div>
             <div className="md:hidden">
