@@ -1,90 +1,78 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Hammer,
-  Truck,
-  CheckCircle,
-  AlertTriangle,
-  Phone,
-  Mail,
-  MapPin,
-  Menu,
-  X,
-  ShieldCheck,
-  Clock,
-  Package,
-  TrendingUp,
-} from 'lucide-react';
+import { Hammer, Truck, CheckCircle, AlertTriangle, Phone, Mail, MapPin, Menu, X, ShieldCheck, Clock, Package, TrendingUp } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import Section from '@/components/ui/Section';
 import SnabHubLogo from '@/components/SnabHubLogo';
 import ReviewsCarousel from '@/components/ReviewsCarousel';
 import { FormStatus } from '@/types';
-
 function Index() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [formStatus, setFormStatus] = useState<FormStatus>(FormStatus.IDLE);
-  const [formData, setFormData] = useState({ name: '', phone: '', request: '' });
-
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    request: ''
+  });
   const handleScroll = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({
+        behavior: 'smooth'
+      });
     }
     setIsMenuOpen(false);
   };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setFormStatus(FormStatus.SUBMITTING);
     setTimeout(() => {
       setFormStatus(FormStatus.SUCCESS);
-      setFormData({ name: '', phone: '', request: '' });
+      setFormData({
+        name: '',
+        phone: '',
+        request: ''
+      });
     }, 1500);
   };
-
   const fadeInUp = {
-    initial: { opacity: 0, y: 60 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.6 },
+    initial: {
+      opacity: 0,
+      y: 60
+    },
+    whileInView: {
+      opacity: 1,
+      y: 0
+    },
+    viewport: {
+      once: true
+    },
+    transition: {
+      duration: 0.6
+    }
   };
-
-  return (
-    <div className="min-h-screen bg-slate-50 font-sans selection:bg-brand-accent selection:text-white">
+  return <div className="min-h-screen bg-slate-50 font-sans selection:bg-brand-accent selection:text-white">
       {/* Navigation */}
       <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-24">
-            <div
-              className="flex-shrink-0 flex items-center cursor-pointer"
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            >
+            <div className="flex-shrink-0 flex items-center cursor-pointer" onClick={() => window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          })}>
               <SnabHubLogo variant="dark" />
             </div>
             <div className="hidden md:flex items-center space-x-8">
-              <button
-                onClick={() => handleScroll('services')}
-                className="text-slate-600 hover:text-brand-primary transition-colors font-semibold"
-              >
+              <button onClick={() => handleScroll('services')} className="text-slate-600 hover:text-brand-primary transition-colors font-semibold">
                 Каталог услуг
               </button>
-              <button
-                onClick={() => handleScroll('benefits')}
-                className="text-slate-600 hover:text-brand-primary transition-colors font-semibold"
-              >
+              <button onClick={() => handleScroll('benefits')} className="text-slate-600 hover:text-brand-primary transition-colors font-semibold">
                 Почему мы
               </button>
-              <button
-                onClick={() => handleScroll('reviews')}
-                className="text-slate-600 hover:text-brand-primary transition-colors font-semibold"
-              >
+              <button onClick={() => handleScroll('reviews')} className="text-slate-600 hover:text-brand-primary transition-colors font-semibold">
                 Отзывы
               </button>
-              <button
-                onClick={() => handleScroll('contact')}
-                className="bg-brand-primary text-white px-6 py-2 rounded-full font-bold hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-              >
+              <button onClick={() => handleScroll('contact')} className="bg-brand-primary text-white px-6 py-2 rounded-full font-bold hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                 Заказать снабжение
               </button>
             </div>
@@ -98,35 +86,28 @@ function Index() {
 
         {/* Mobile Menu */}
         <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-white border-t"
-            >
+          {isMenuOpen && <motion.div initial={{
+          opacity: 0,
+          height: 0
+        }} animate={{
+          opacity: 1,
+          height: 'auto'
+        }} exit={{
+          opacity: 0,
+          height: 0
+        }} className="md:hidden bg-white border-t">
               <div className="px-4 pt-2 pb-8 space-y-4 flex flex-col items-center">
-                <button
-                  onClick={() => handleScroll('services')}
-                  className="block py-2 text-lg text-slate-600"
-                >
+                <button onClick={() => handleScroll('services')} className="block py-2 text-lg text-slate-600">
                   Каталог услуг
                 </button>
-                <button
-                  onClick={() => handleScroll('benefits')}
-                  className="block py-2 text-lg text-slate-600"
-                >
+                <button onClick={() => handleScroll('benefits')} className="block py-2 text-lg text-slate-600">
                   Почему мы
                 </button>
-                <button
-                  onClick={() => handleScroll('contact')}
-                  className="w-full bg-brand-primary text-white py-3 rounded-lg text-center font-bold"
-                >
+                <button onClick={() => handleScroll('contact')} className="w-full bg-brand-primary text-white py-3 rounded-lg text-center font-bold">
                   Заказать снабжение
                 </button>
               </div>
-            </motion.div>
-          )}
+            </motion.div>}
         </AnimatePresence>
       </nav>
 
@@ -135,11 +116,15 @@ function Index() {
         <AnimatedBackground />
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-            >
+            <motion.div initial={{
+            opacity: 0,
+            x: -50
+          }} animate={{
+            opacity: 1,
+            x: 0
+          }} transition={{
+            duration: 0.8
+          }}>
               <div className="inline-block bg-brand-accent/20 text-brand-accent px-4 py-1 rounded-full text-sm font-bold tracking-wider mb-6 border border-brand-accent/50">
                 СНАБЖЕНИЕ БИЗНЕСА И СТРОЙКИ
               </div>
@@ -148,42 +133,34 @@ function Index() {
                 <br />
                 <span className="text-gradient-hero">для вашего дела.</span>
               </h1>
-              <p className="text-lg md:text-xl text-slate-300 mb-8 max-w-lg leading-relaxed">
-                От моторных масел и стройматериалов до электроинструмента и сельхозпродукции.
-                Всё, что нужно для работы, в одном месте. Плюс профессиональные строительные
-                услуги.
-              </p>
+              <p className="text-lg md:text-xl text-slate-300 mb-8 max-w-lg leading-relaxed">От ГСМ и стройматериалов до электроинструмента и сельхозпродукции. Всё, что нужно для работы, в одном месте. Плюс профессиональные строительные услуги.</p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button
-                  onClick={() => handleScroll('contact')}
-                  className="bg-brand-accent text-brand-dark px-8 py-4 rounded-lg font-bold text-lg hover:bg-amber-400 transition-all shadow-brand transform hover:scale-105"
-                >
+                <button onClick={() => handleScroll('contact')} className="bg-brand-accent text-brand-dark px-8 py-4 rounded-lg font-bold text-lg hover:bg-amber-400 transition-all shadow-brand transform hover:scale-105">
                   Рассчитать заявку
                 </button>
-                <button
-                  onClick={() => handleScroll('services')}
-                  className="px-8 py-4 rounded-lg font-bold text-lg border border-slate-600 hover:bg-white/10 transition-all"
-                >
-                  Каталог продукции
+                <button onClick={() => handleScroll('services')} className="px-8 py-4 rounded-lg font-bold text-lg border border-slate-600 hover:bg-white/10 transition-all">
+                  Наши услуги  
                 </button>
               </div>
             </motion.div>
 
             {/* Abstract visual representation */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
-              className="relative hidden md:block"
-            >
+            <motion.div initial={{
+            opacity: 0,
+            scale: 0.8
+          }} animate={{
+            opacity: 1,
+            scale: 1
+          }} transition={{
+            delay: 0.3,
+            duration: 0.8
+          }} className="relative hidden md:block">
               <div className="relative w-full aspect-square max-w-md mx-auto">
                 <div className="absolute inset-0 bg-gradient-to-tr from-brand-primary to-cyan-400 rounded-3xl transform rotate-6 opacity-20 animate-pulse"></div>
                 <div className="absolute inset-0 bg-slate-800 border border-slate-700 rounded-3xl shadow-2xl overflow-hidden flex items-center justify-center">
                   {/* Stylish grid overlay */}
                   <div className="absolute inset-0 grid grid-cols-6 grid-rows-6 gap-1 opacity-10">
-                    {[...Array(36)].map((_, i) => (
-                      <div key={i} className="bg-white/20"></div>
-                    ))}
+                    {[...Array(36)].map((_, i) => <div key={i} className="bg-white/20"></div>)}
                   </div>
                   <div className="text-center p-8 z-10">
                     <div className="text-5xl font-bold text-white mb-2">100%</div>
@@ -195,11 +172,13 @@ function Index() {
                 </div>
 
                 {/* Floating Elements */}
-                <motion.div
-                  className="absolute -top-10 -right-10 bg-white text-brand-dark p-4 rounded-xl shadow-xl flex items-center gap-3 z-20"
-                  animate={{ y: [0, -15, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                >
+                <motion.div className="absolute -top-10 -right-10 bg-white text-brand-dark p-4 rounded-xl shadow-xl flex items-center gap-3 z-20" animate={{
+                y: [0, -15, 0]
+              }} transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: 'easeInOut'
+              }}>
                   <div className="bg-green-100 p-2 rounded-full">
                     <CheckCircle className="text-green-600" size={20} />
                   </div>
@@ -208,11 +187,13 @@ function Index() {
                     <div className="font-bold">Отгружено в срок</div>
                   </div>
                 </motion.div>
-                <motion.div
-                  className="absolute -bottom-5 -left-5 bg-brand-primary text-white p-4 rounded-xl shadow-xl z-20"
-                  animate={{ y: [0, 15, 0] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-                >
+                <motion.div className="absolute -bottom-5 -left-5 bg-brand-primary text-white p-4 rounded-xl shadow-xl z-20" animate={{
+                y: [0, 15, 0]
+              }} transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: 'easeInOut'
+              }}>
                   <div className="flex items-center gap-2">
                     <Package size={20} />
                     <span className="font-bold">5000+ позиций</span>
@@ -237,37 +218,33 @@ function Index() {
           </p>
         </motion.div>
         <div className="grid md:grid-cols-3 gap-8">
-          {[
-            {
-              icon: <Clock size={40} />,
-              title: 'Задержки поставок',
-              desc: 'Материалы не приезжают вовремя, рабочие и техника простаивают, графики горят.',
-            },
-            {
-              icon: <AlertTriangle size={40} />,
-              title: 'Брак и некондиция',
-              desc: 'Привезли не то, что заказывали. Возврат занимает недели, а работать нужно сейчас.',
-            },
-            {
-              icon: <TrendingUp size={40} />,
-              title: 'Завышенные цены',
-              desc: 'Закупка у десятка разных мелких поставщиков увеличивает бюджет на логистику и наценки.',
-            },
-          ].map((item, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1 }}
-              className="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:shadow-xl transition-shadow group"
-            >
+          {[{
+          icon: <Clock size={40} />,
+          title: 'Задержки поставок',
+          desc: 'Материалы не приезжают вовремя, рабочие и техника простаивают, графики горят.'
+        }, {
+          icon: <AlertTriangle size={40} />,
+          title: 'Брак и некондиция',
+          desc: 'Привезли не то, что заказывали. Возврат занимает недели, а работать нужно сейчас.'
+        }, {
+          icon: <TrendingUp size={40} />,
+          title: 'Завышенные цены',
+          desc: 'Закупка у десятка разных мелких поставщиков увеличивает бюджет на логистику и наценки.'
+        }].map((item, idx) => <motion.div key={idx} initial={{
+          opacity: 0,
+          y: 30
+        }} whileInView={{
+          opacity: 1,
+          y: 0
+        }} transition={{
+          delay: idx * 0.1
+        }} className="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:shadow-xl transition-shadow group">
               <div className="w-16 h-16 bg-red-100 text-red-500 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 {item.icon}
               </div>
               <h3 className="text-xl font-bold mb-3">{item.title}</h3>
               <p className="text-slate-500 leading-relaxed">{item.desc}</p>
-            </motion.div>
-          ))}
+            </motion.div>)}
         </div>
       </Section>
 
@@ -288,30 +265,22 @@ function Index() {
               ответственность.
             </p>
             <ul className="space-y-4">
-              {[
-                'Широчайший ассортимент: стройка, ГСМ, агро, инструмент',
-                'Собственная логистика и автопарк спецтехники',
-                'Прямые дилерские контракты с производителями',
-                'Строительные услуги как надежное дополнение',
-              ].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-white">
+              {['Широчайший ассортимент: стройка, ГСМ, агро, инструмент', 'Собственная логистика и автопарк спецтехники', 'Прямые дилерские контракты с производителями', 'Строительные услуги как надежное дополнение'].map((item, i) => <li key={i} className="flex items-center gap-3 text-white">
                   <CheckCircle className="text-brand-accent flex-shrink-0" size={20} />
                   <span>{item}</span>
-                </li>
-              ))}
+                </li>)}
             </ul>
           </motion.div>
-          <motion.div
-            className="relative"
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <img
-              src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&h=400&fit=crop"
-              alt="Logistics and Supply"
-              className="rounded-lg shadow-2xl border-4 border-white/10"
-            />
+          <motion.div className="relative" initial={{
+          opacity: 0,
+          x: 50
+        }} whileInView={{
+          opacity: 1,
+          x: 0
+        }} transition={{
+          duration: 0.8
+        }}>
+            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&h=400&fit=crop" alt="Logistics and Supply" className="rounded-lg shadow-2xl border-4 border-white/10" />
             <div className="absolute -bottom-6 -left-6 bg-white text-brand-dark p-6 rounded-lg shadow-xl max-w-xs">
               <p className="font-bold text-lg mb-1">Оптимизация до 20%</p>
               <p className="text-sm text-slate-500">
@@ -325,27 +294,34 @@ function Index() {
       {/* 4. Achievements (Authority) */}
       <Section variant="white">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          {[
-            { num: '10k+', label: 'Товарных позиций' },
-            { num: '1200', label: 'Тонн отгружено' },
-            { num: '50+', label: 'Партнеров-заводов' },
-            { num: '24/7', label: 'Прием заявок' },
-          ].map((stat, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ scale: 0.5, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              transition={{ delay: idx * 0.1 }}
-              className="p-6"
-            >
+          {[{
+          num: '10k+',
+          label: 'Товарных позиций'
+        }, {
+          num: '1200',
+          label: 'Тонн отгружено'
+        }, {
+          num: '50+',
+          label: 'Партнеров-заводов'
+        }, {
+          num: '24/7',
+          label: 'Прием заявок'
+        }].map((stat, idx) => <motion.div key={idx} initial={{
+          scale: 0.5,
+          opacity: 0
+        }} whileInView={{
+          scale: 1,
+          opacity: 1
+        }} transition={{
+          delay: idx * 0.1
+        }} className="p-6">
               <div className="text-4xl md:text-5xl font-extrabold text-brand-primary mb-2">
                 {stat.num}
               </div>
               <div className="text-slate-500 font-medium uppercase tracking-wider text-sm">
                 {stat.label}
               </div>
-            </motion.div>
-          ))}
+            </motion.div>)}
         </div>
       </Section>
 
@@ -356,44 +332,33 @@ function Index() {
           <div className="w-20 h-1 bg-brand-primary mx-auto"></div>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {[
-            {
-              title: 'Всё в одном месте',
-              desc: 'Не нужно искать 10 разных поставщиков. Мы привезем стройматериалы, масла и сельхозпродукцию одной машиной.',
-            },
-            {
-              title: 'Оперативная логистика',
-              desc: 'Собственный транспорт позволяет нам не зависеть от транспортных компаний и доставлять точно в срок.',
-            },
-            {
-              title: 'Оптовые цены',
-              desc: 'Благодаря большим объемам закупок мы предлагаем цены ниже розничных магазинов.',
-            },
-            {
-              title: 'Любые объемы',
-              desc: 'Работаем как с крупными строительными объектами, так и с частными заказчиками.',
-            },
-            {
-              title: 'Гарантия качества',
-              desc: 'Весь товар сертифицирован. Предоставляем полный пакет документов и паспорта качества.',
-            },
-            {
-              title: 'Услуги монтажа',
-              desc: 'Если нужно не только привезти, но и построить — наши бригады готовы приступить к работе.',
-            },
-          ].map((benefit, i) => (
-            <motion.div
-              key={i}
-              whileHover={{ y: -5 }}
-              className="bg-white p-8 rounded-xl shadow-sm border border-slate-200 hover:border-brand-primary/50 transition-all"
-            >
+          {[{
+          title: 'Всё в одном месте',
+          desc: 'Не нужно искать 10 разных поставщиков. Мы привезем стройматериалы, масла и сельхозпродукцию одной машиной.'
+        }, {
+          title: 'Оперативная логистика',
+          desc: 'Собственный транспорт позволяет нам не зависеть от транспортных компаний и доставлять точно в срок.'
+        }, {
+          title: 'Оптовые цены',
+          desc: 'Благодаря большим объемам закупок мы предлагаем цены ниже розничных магазинов.'
+        }, {
+          title: 'Любые объемы',
+          desc: 'Работаем как с крупными строительными объектами, так и с частными заказчиками.'
+        }, {
+          title: 'Гарантия качества',
+          desc: 'Весь товар сертифицирован. Предоставляем полный пакет документов и паспорта качества.'
+        }, {
+          title: 'Услуги монтажа',
+          desc: 'Если нужно не только привезти, но и построить — наши бригады готовы приступить к работе.'
+        }].map((benefit, i) => <motion.div key={i} whileHover={{
+          y: -5
+        }} className="bg-white p-8 rounded-xl shadow-sm border border-slate-200 hover:border-brand-primary/50 transition-all">
               <div className="w-10 h-10 bg-brand-primary/10 rounded-full flex items-center justify-center mb-4 text-brand-primary font-bold">
                 {i + 1}
               </div>
               <h3 className="font-bold text-xl mb-3">{benefit.title}</h3>
               <p className="text-slate-600">{benefit.desc}</p>
-            </motion.div>
-          ))}
+            </motion.div>)}
         </div>
       </Section>
 
@@ -537,26 +502,17 @@ function Index() {
               <div className="flex gap-3">
                 <Phone size={20} className="flex-shrink-0 mt-1" />
                 <div className="flex flex-col">
-                  <a
-                    href="tel:+79125882713"
-                    className="hover:text-brand-accent transition-colors font-medium"
-                  >
+                  <a href="tel:+79125882713" className="hover:text-brand-accent transition-colors font-medium">
                     +7 (912) 588-27-13
                   </a>
-                  <a
-                    href="tel:+79183524512"
-                    className="hover:text-brand-accent transition-colors font-medium"
-                  >
+                  <a href="tel:+79183524512" className="hover:text-brand-accent transition-colors font-medium">
                     +7 (918) 352-45-12
                   </a>
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <Mail size={20} />
-                <a
-                  href="mailto:snabhab-group@mail.ru"
-                  className="hover:text-brand-accent transition-colors"
-                >
+                <a href="mailto:snabhab-group@mail.ru" className="hover:text-brand-accent transition-colors">
                   snabhab-group@mail.ru
                 </a>
               </div>
@@ -569,66 +525,39 @@ function Index() {
 
           <div className="md:w-1/2 p-10 bg-white">
             <h3 className="text-2xl font-bold text-slate-800 mb-6">
-              Оставьте заявку на снабжение
+              Оставьте заявку  
             </h3>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">
                   Ваше имя
                 </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none"
-                  placeholder="Иван Иванов"
-                />
+                <input type="text" required value={formData.name} onChange={e => setFormData({
+                ...formData,
+                name: e.target.value
+              })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="Иван Иванов" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Телефон</label>
-                <input
-                  type="tel"
-                  required
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none"
-                  placeholder="+7 (___) ___-__-__"
-                />
+                <input type="tel" required value={formData.phone} onChange={e => setFormData({
+                ...formData,
+                phone: e.target.value
+              })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="+7 (___) ___-__-__" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">
                   Что нужно поставить?
                 </label>
-                <textarea
-                  rows={3}
-                  value={formData.request}
-                  onChange={(e) => setFormData({ ...formData, request: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none"
-                  placeholder="Например: 10 тонн арматуры, 5 бочек масла 10w40..."
-                ></textarea>
+                <textarea rows={3} value={formData.request} onChange={e => setFormData({
+                ...formData,
+                request: e.target.value
+              })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="Например: 10 тонн арматуры, 5 бочек масла 10w40..."></textarea>
               </div>
-              {formStatus === FormStatus.ERROR && (
-                <div className="text-red-500 text-sm text-center">
+              {formStatus === FormStatus.ERROR && <div className="text-red-500 text-sm text-center">
                   Произошла ошибка. Попробуйте снова.
-                </div>
-              )}
-              <button
-                type="submit"
-                disabled={
-                  formStatus === FormStatus.SUBMITTING || formStatus === FormStatus.SUCCESS
-                }
-                className={`w-full py-4 rounded-lg font-bold text-white transition-all transform hover:-translate-y-1 shadow-lg ${
-                  formStatus === FormStatus.SUCCESS
-                    ? 'bg-green-500 hover:bg-green-600'
-                    : 'bg-brand-primary hover:bg-blue-700'
-                }`}
-              >
-                {formStatus === FormStatus.SUBMITTING
-                  ? 'Отправка...'
-                  : formStatus === FormStatus.SUCCESS
-                  ? 'Заявка принята!'
-                  : 'Получить расчет'}
+                </div>}
+              <button type="submit" disabled={formStatus === FormStatus.SUBMITTING || formStatus === FormStatus.SUCCESS} className={`w-full py-4 rounded-lg font-bold text-white transition-all transform hover:-translate-y-1 shadow-lg ${formStatus === FormStatus.SUCCESS ? 'bg-green-500 hover:bg-green-600' : 'bg-brand-primary hover:bg-blue-700'}`}>
+                {formStatus === FormStatus.SUBMITTING ? 'Отправка...' : formStatus === FormStatus.SUCCESS ? 'Заявка принята!' : 'Получить расчет'}
               </button>
             </form>
           </div>
@@ -666,8 +595,6 @@ function Index() {
           </div>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 }
-
 export default Index;
