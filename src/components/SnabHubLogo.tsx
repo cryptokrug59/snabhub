@@ -7,7 +7,7 @@ interface SnabHubLogoProps {
 
 const SnabHubLogo = ({ className = '', variant = 'dark' }: SnabHubLogoProps) => (
   <div className={`flex items-center gap-3 group cursor-pointer ${className}`}>
-    <img src={logo} alt="СнабХаб-Групп" className="h-14 w-auto flex-shrink-0" />
+    <img src={logo} alt="СнабХаб-Групп" className="h-14 w-auto flex-shrink-0 transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]" />
     <div className="flex flex-col justify-center">
       <span
         className={`font-[800] text-3xl tracking-tighter leading-none transition-colors duration-300 ${
