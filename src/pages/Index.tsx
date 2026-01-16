@@ -1,19 +1,33 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Hammer, Truck, CheckCircle, AlertTriangle, Phone, Mail, MapPin, Menu, X, ShieldCheck, Clock, Package, TrendingUp } from 'lucide-react';
+import { Hammer, Truck, CheckCircle, AlertTriangle, Phone, Mail, MapPin, Menu, X, ShieldCheck, Clock, Package, TrendingUp, FileCheck, Link } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import Section from '@/components/ui/Section';
 import SnabHubLogo from '@/components/SnabHubLogo';
 import ReviewsCarousel from '@/components/ReviewsCarousel';
 import { FormStatus } from '@/types';
+
 function Index() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [formStatus, setFormStatus] = useState<FormStatus>(FormStatus.IDLE);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
+    email: '',
     request: ''
   });
+  const [activeTab, setActiveTab] = useState<'request' | 'tender'>('request');
+  const [tenderFormStatus, setTenderFormStatus] = useState<FormStatus>(FormStatus.IDLE);
+  const [tenderFormData, setTenderFormData] = useState({
+    company: '',
+    contactPerson: '',
+    email: '',
+    phone: '',
+    tenderNumber: '',
+    tenderLink: '',
+    comment: ''
+  });
+
   const handleScroll = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -23,6 +37,7 @@ function Index() {
     }
     setIsMenuOpen(false);
   };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setFormStatus(FormStatus.SUBMITTING);
@@ -31,10 +46,29 @@ function Index() {
       setFormData({
         name: '',
         phone: '',
+        email: '',
         request: ''
       });
     }, 1500);
   };
+
+  const handleTenderSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setTenderFormStatus(FormStatus.SUBMITTING);
+    setTimeout(() => {
+      setTenderFormStatus(FormStatus.SUCCESS);
+      setTenderFormData({
+        company: '',
+        contactPerson: '',
+        email: '',
+        phone: '',
+        tenderNumber: '',
+        tenderLink: '',
+        comment: ''
+      });
+    }, 1500);
+  };
+
   const fadeInUp = {
     initial: {
       opacity: 0,
@@ -51,6 +85,7 @@ function Index() {
       duration: 0.6
     }
   };
+
   return <div className="min-h-screen bg-slate-50 font-sans selection:bg-brand-accent selection:text-white">
       {/* Navigation */}
       <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
@@ -265,7 +300,7 @@ function Index() {
               ответственность.
             </p>
             <ul className="space-y-4">
-              {['Широчайший ассортимент: стройка, ГСМ, агро, инструмент', 'Собственная логистика и автопарк спецтехники', 'Прямые дилерские контракты с производителями', 'Строительные услуги как надежное дополнение'].map((item, i) => <li key={i} className="flex items-center gap-3 text-white">
+              {['Широчайший ассортимент: стройка, ГСМ, инструмент, СИЗ', 'Собственная логистика и автопарк спецтехники', 'Прямые дилерские контракты с производителями', 'Строительные услуги как надежное дополнение'].map((item, i) => <li key={i} className="flex items-center gap-3 text-white">
                   <CheckCircle className="text-brand-accent flex-shrink-0" size={20} />
                   <span>{item}</span>
                 </li>)}
@@ -334,7 +369,7 @@ function Index() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {[{
           title: 'Всё в одном месте',
-          desc: 'Не нужно искать 10 разных поставщиков. Мы привезем стройматериалы, масла и сельхозпродукцию одной машиной.'
+          desc: 'Не нужно искать 10 разных поставщиков. Мы привезем стройматериалы, масла и инструмент одной машиной.'
         }, {
           title: 'Оперативная логистика',
           desc: 'Собственный транспорт позволяет нам не зависеть от транспортных компаний и доставлять точно в срок.'
@@ -375,7 +410,7 @@ function Index() {
             Ключевой профиль — комплексное снабжение предприятий и частных лиц
           </p>
         </div>
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-3 gap-8">
           {/* Supply Column - Primary Focus */}
           <div className="bg-slate-800/80 backdrop-blur-sm p-8 rounded-2xl border-2 border-brand-primary shadow-brand-lg transform md:-translate-y-4">
             <div className="flex items-center gap-4 mb-8">
@@ -409,13 +444,6 @@ function Index() {
                 <span>
                   <strong>ГСМ и Масла:</strong> моторные, гидравлические, трансмиссионные масла,
                   смазки (бочки и канистры).
-                </span>
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-brand-accent rounded-full mt-2"></div>
-                <span>
-                  <strong>Сельхоз продукция:</strong> удобрения, корма, агрохимия, укрывные
-                  материалы.
                 </span>
               </li>
               <li className="flex items-start gap-3">
@@ -465,12 +493,50 @@ function Index() {
               </p>
             </div>
           </div>
+
+          {/* Tender Column - New */}
+          <div className="bg-slate-800/50 backdrop-blur-sm p-8 rounded-2xl border border-slate-700 hover:border-slate-500 transition-colors">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="p-4 bg-slate-700 rounded-lg text-white">
+                <FileCheck size={32} />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-white">Тендерное сопровождение</h3>
+                <span className="text-slate-400 text-sm font-bold uppercase tracking-wider">
+                  Новое направление
+                </span>
+              </div>
+            </div>
+            <ul className="space-y-4 text-slate-400">
+              <li className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-slate-500 rounded-full"></div>
+                Подготовка документации для участия в тендерах.
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-slate-500 rounded-full"></div>
+                Анализ тендерных площадок и поиск закупок.
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-slate-500 rounded-full"></div>
+                Расчет коммерческих предложений.
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-slate-500 rounded-full"></div>
+                Сопровождение до заключения контракта.
+              </li>
+            </ul>
+            <div className="mt-8 p-4 bg-slate-700/30 rounded-lg text-sm text-slate-400 border border-slate-700">
+              <p>
+                Поможем найти выгодные тендеры и выиграть их с минимальными затратами времени.
+              </p>
+            </div>
+          </div>
         </div>
       </Section>
 
       {/* 8. Scarcity & 9. Guarantee & 10. CTA (Combined in Form Section) */}
       <Section id="contact" variant="white">
-        <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100 flex flex-col md:flex-row">
+        <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100 flex flex-col md:flex-row">
           <div className="md:w-1/2 bg-brand-primary p-10 text-white flex flex-col justify-between relative overflow-hidden">
             {/* Dynamic background circles */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
@@ -524,42 +590,143 @@ function Index() {
           </div>
 
           <div className="md:w-1/2 p-10 bg-white">
-            <h3 className="text-2xl font-bold text-slate-800 mb-6">
-              Оставьте заявку  
-            </h3>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">
-                  Ваше имя
-                </label>
-                <input type="text" required value={formData.name} onChange={e => setFormData({
-                ...formData,
-                name: e.target.value
-              })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="Иван Иванов" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Телефон</label>
-                <input type="tel" required value={formData.phone} onChange={e => setFormData({
-                ...formData,
-                phone: e.target.value
-              })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="+7 (___) ___-__-__" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">
-                  Что нужно поставить?
-                </label>
-                <textarea rows={3} value={formData.request} onChange={e => setFormData({
-                ...formData,
-                request: e.target.value
-              })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="Например: 10 тонн арматуры, 5 бочек масла 10w40..."></textarea>
-              </div>
-              {formStatus === FormStatus.ERROR && <div className="text-red-500 text-sm text-center">
-                  Произошла ошибка. Попробуйте снова.
-                </div>}
-              <button type="submit" disabled={formStatus === FormStatus.SUBMITTING || formStatus === FormStatus.SUCCESS} className={`w-full py-4 rounded-lg font-bold text-white transition-all transform hover:-translate-y-1 shadow-lg ${formStatus === FormStatus.SUCCESS ? 'bg-green-500 hover:bg-green-600' : 'bg-brand-primary hover:bg-blue-700'}`}>
-                {formStatus === FormStatus.SUBMITTING ? 'Отправка...' : formStatus === FormStatus.SUCCESS ? 'Заявка принята!' : 'Получить расчет'}
+            {/* Tab switcher */}
+            <div className="flex mb-6 border-b border-slate-200">
+              <button
+                onClick={() => setActiveTab('request')}
+                className={`flex-1 py-3 text-center font-bold transition-all ${
+                  activeTab === 'request'
+                    ? 'text-brand-primary border-b-2 border-brand-primary'
+                    : 'text-slate-400 hover:text-slate-600'
+                }`}
+              >
+                Оставить заявку
               </button>
-            </form>
+              <button
+                onClick={() => setActiveTab('tender')}
+                className={`flex-1 py-3 text-center font-bold transition-all ${
+                  activeTab === 'tender'
+                    ? 'text-brand-primary border-b-2 border-brand-primary'
+                    : 'text-slate-400 hover:text-slate-600'
+                }`}
+              >
+                Пригласить на тендер
+              </button>
+            </div>
+
+            {activeTab === 'request' ? (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">
+                    Ваше имя
+                  </label>
+                  <input type="text" required value={formData.name} onChange={e => setFormData({
+                  ...formData,
+                  name: e.target.value
+                })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="Иван Иванов" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Телефон</label>
+                  <input type="tel" required value={formData.phone} onChange={e => setFormData({
+                  ...formData,
+                  phone: e.target.value
+                })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="+7 (___) ___-__-__" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Email</label>
+                  <input type="email" value={formData.email} onChange={e => setFormData({
+                  ...formData,
+                  email: e.target.value
+                })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="example@mail.ru" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">
+                    Что нужно поставить?
+                  </label>
+                  <textarea rows={2} value={formData.request} onChange={e => setFormData({
+                  ...formData,
+                  request: e.target.value
+                })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="Например: 10 тонн арматуры, 5 бочек масла 10w40..."></textarea>
+                </div>
+                {formStatus === FormStatus.ERROR && <div className="text-red-500 text-sm text-center">
+                    Произошла ошибка. Попробуйте снова.
+                  </div>}
+                <button type="submit" disabled={formStatus === FormStatus.SUBMITTING || formStatus === FormStatus.SUCCESS} className={`w-full py-4 rounded-lg font-bold text-white transition-all transform hover:-translate-y-1 shadow-lg ${formStatus === FormStatus.SUCCESS ? 'bg-green-500 hover:bg-green-600' : 'bg-brand-primary hover:bg-blue-700'}`}>
+                  {formStatus === FormStatus.SUBMITTING ? 'Отправка...' : formStatus === FormStatus.SUCCESS ? 'Заявка принята!' : 'Получить расчет'}
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={handleTenderSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">
+                    Название организации
+                  </label>
+                  <input type="text" required value={tenderFormData.company} onChange={e => setTenderFormData({
+                  ...tenderFormData,
+                  company: e.target.value
+                })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="ООО «Ваша компания»" />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Контактное лицо</label>
+                    <input type="text" required value={tenderFormData.contactPerson} onChange={e => setTenderFormData({
+                    ...tenderFormData,
+                    contactPerson: e.target.value
+                  })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="Иван Иванов" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Телефон</label>
+                    <input type="tel" required value={tenderFormData.phone} onChange={e => setTenderFormData({
+                    ...tenderFormData,
+                    phone: e.target.value
+                  })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="+7 (___) ___-__-__" />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Email</label>
+                  <input type="email" required value={tenderFormData.email} onChange={e => setTenderFormData({
+                  ...tenderFormData,
+                  email: e.target.value
+                })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="example@mail.ru" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">
+                    Номер/название тендера
+                  </label>
+                  <input type="text" required value={tenderFormData.tenderNumber} onChange={e => setTenderFormData({
+                  ...tenderFormData,
+                  tenderNumber: e.target.value
+                })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="№12345 или название закупки" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">
+                    Ссылка на тендер <span className="text-slate-400">(опционально)</span>
+                  </label>
+                  <div className="relative">
+                    <Link size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input type="url" value={tenderFormData.tenderLink} onChange={e => setTenderFormData({
+                    ...tenderFormData,
+                    tenderLink: e.target.value
+                  })} className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="https://..." />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">
+                    Комментарий <span className="text-slate-400">(опционально)</span>
+                  </label>
+                  <textarea rows={2} value={tenderFormData.comment} onChange={e => setTenderFormData({
+                  ...tenderFormData,
+                  comment: e.target.value
+                })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="Дополнительная информация..."></textarea>
+                </div>
+                {tenderFormStatus === FormStatus.ERROR && <div className="text-red-500 text-sm text-center">
+                    Произошла ошибка. Попробуйте снова.
+                  </div>}
+                <button type="submit" disabled={tenderFormStatus === FormStatus.SUBMITTING || tenderFormStatus === FormStatus.SUCCESS} className={`w-full py-4 rounded-lg font-bold text-white transition-all transform hover:-translate-y-1 shadow-lg ${tenderFormStatus === FormStatus.SUCCESS ? 'bg-green-500 hover:bg-green-600' : 'bg-brand-primary hover:bg-blue-700'}`}>
+                  {tenderFormStatus === FormStatus.SUBMITTING ? 'Отправка...' : tenderFormStatus === FormStatus.SUCCESS ? 'Приглашение отправлено!' : 'Пригласить на тендер'}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </Section>
