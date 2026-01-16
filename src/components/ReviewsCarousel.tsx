@@ -4,12 +4,6 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const reviews = [
   {
-    name: 'Дмитрий Волков',
-    role: 'Главный инженер АгроХолдинг',
-    text: 'Раньше закупали ГСМ в одном месте, запчасти в другом. СнабХаб закрыл все позиции разом. Удобно и выгодно.',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop',
-  },
-  {
     name: 'Сергей Ковалев',
     role: 'Прораб СтройГрупп',
     text: 'Заказываем здесь всё: от сухих смесей до профессионального инструмента. Доставка всегда вовремя, простоев нет.',
@@ -22,12 +16,6 @@ const reviews = [
     image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&h=100&fit=crop',
   },
   {
-    name: 'Михаил Орлов',
-    role: 'Руководитель отдела закупок Агро-Союз',
-    text: 'Наконец-то нашли надёжного поставщика. Все заявки обрабатываются быстро, отгрузка точно в срок.',
-    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&h=100&fit=crop',
-  },
-  {
     name: 'Андрей Соколов',
     role: 'Владелец строительной компании',
     text: 'Особенно ценю комплексный подход — одна заявка, один счёт, одна доставка. Экономия времени колоссальная.',
@@ -36,10 +24,8 @@ const reviews = [
 ];
 
 const clients = [
-  { name: 'АгроХолдинг', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop' },
   { name: 'СтройГрупп', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop' },
   { name: 'ТехноСервис', image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=50&h=50&fit=crop' },
-  { name: 'Агро-Союз', image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=50&h=50&fit=crop' },
   { name: 'СтройМастер', image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=50&h=50&fit=crop' },
 ];
 
