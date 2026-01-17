@@ -6,7 +6,6 @@ import Section from '@/components/ui/Section';
 import SnabHubLogo from '@/components/SnabHubLogo';
 import ReviewsCarousel from '@/components/ReviewsCarousel';
 import { FormStatus } from '@/types';
-
 function Index() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [formStatus, setFormStatus] = useState<FormStatus>(FormStatus.IDLE);
@@ -27,7 +26,6 @@ function Index() {
     tenderLink: '',
     comment: ''
   });
-
   const handleScroll = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -37,7 +35,6 @@ function Index() {
     }
     setIsMenuOpen(false);
   };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setFormStatus(FormStatus.SUBMITTING);
@@ -51,7 +48,6 @@ function Index() {
       });
     }, 1500);
   };
-
   const handleTenderSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setTenderFormStatus(FormStatus.SUBMITTING);
@@ -68,7 +64,6 @@ function Index() {
       });
     }, 1500);
   };
-
   const fadeInUp = {
     initial: {
       opacity: 0,
@@ -85,7 +80,6 @@ function Index() {
       duration: 0.6
     }
   };
-
   return <div className="min-h-screen bg-slate-50 font-sans selection:bg-brand-accent selection:text-white">
       {/* Navigation */}
       <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
@@ -99,7 +93,7 @@ function Index() {
             </div>
             <div className="hidden md:flex items-center space-x-8">
               <button onClick={() => handleScroll('services')} className="text-slate-600 hover:text-brand-primary transition-colors font-semibold">
-                Каталог услуг
+                 Наши услуги
               </button>
               <button onClick={() => handleScroll('benefits')} className="text-slate-600 hover:text-brand-primary transition-colors font-semibold">
                 Почему мы
@@ -592,61 +586,46 @@ function Index() {
           <div className="md:w-1/2 p-10 bg-white">
             {/* Tab switcher */}
             <div className="flex mb-6 border-b border-slate-200">
-              <button
-                onClick={() => setActiveTab('request')}
-                className={`flex-1 py-3 text-center font-bold transition-all ${
-                  activeTab === 'request'
-                    ? 'text-brand-primary border-b-2 border-brand-primary'
-                    : 'text-slate-400 hover:text-slate-600'
-                }`}
-              >
+              <button onClick={() => setActiveTab('request')} className={`flex-1 py-3 text-center font-bold transition-all ${activeTab === 'request' ? 'text-brand-primary border-b-2 border-brand-primary' : 'text-slate-400 hover:text-slate-600'}`}>
                 Оставить заявку
               </button>
-              <button
-                onClick={() => setActiveTab('tender')}
-                className={`flex-1 py-3 text-center font-bold transition-all ${
-                  activeTab === 'tender'
-                    ? 'text-brand-primary border-b-2 border-brand-primary'
-                    : 'text-slate-400 hover:text-slate-600'
-                }`}
-              >
+              <button onClick={() => setActiveTab('tender')} className={`flex-1 py-3 text-center font-bold transition-all ${activeTab === 'tender' ? 'text-brand-primary border-b-2 border-brand-primary' : 'text-slate-400 hover:text-slate-600'}`}>
                 Пригласить на тендер
               </button>
             </div>
 
-            {activeTab === 'request' ? (
-              <form onSubmit={handleSubmit} className="space-y-4">
+            {activeTab === 'request' ? <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">
                     Ваше имя
                   </label>
                   <input type="text" required value={formData.name} onChange={e => setFormData({
-                  ...formData,
-                  name: e.target.value
-                })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="Иван Иванов" />
+                ...formData,
+                name: e.target.value
+              })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="Иван Иванов" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Телефон</label>
                   <input type="tel" required value={formData.phone} onChange={e => setFormData({
-                  ...formData,
-                  phone: e.target.value
-                })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="+7 (___) ___-__-__" />
+                ...formData,
+                phone: e.target.value
+              })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="+7 (___) ___-__-__" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Email</label>
                   <input type="email" value={formData.email} onChange={e => setFormData({
-                  ...formData,
-                  email: e.target.value
-                })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="example@mail.ru" />
+                ...formData,
+                email: e.target.value
+              })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="example@mail.ru" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">
                     Что нужно поставить?
                   </label>
                   <textarea rows={2} value={formData.request} onChange={e => setFormData({
-                  ...formData,
-                  request: e.target.value
-                })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="Например: 10 тонн арматуры, 5 бочек масла 10w40..."></textarea>
+                ...formData,
+                request: e.target.value
+              })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="Например: 10 тонн арматуры, 5 бочек масла 10w40..."></textarea>
                 </div>
                 {formStatus === FormStatus.ERROR && <div className="text-red-500 text-sm text-center">
                     Произошла ошибка. Попробуйте снова.
@@ -654,49 +633,47 @@ function Index() {
                 <button type="submit" disabled={formStatus === FormStatus.SUBMITTING || formStatus === FormStatus.SUCCESS} className={`w-full py-4 rounded-lg font-bold text-white transition-all transform hover:-translate-y-1 shadow-lg ${formStatus === FormStatus.SUCCESS ? 'bg-green-500 hover:bg-green-600' : 'bg-brand-primary hover:bg-blue-700'}`}>
                   {formStatus === FormStatus.SUBMITTING ? 'Отправка...' : formStatus === FormStatus.SUCCESS ? 'Заявка принята!' : 'Получить расчет'}
                 </button>
-              </form>
-            ) : (
-              <form onSubmit={handleTenderSubmit} className="space-y-4">
+              </form> : <form onSubmit={handleTenderSubmit} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">
                     Название организации
                   </label>
                   <input type="text" required value={tenderFormData.company} onChange={e => setTenderFormData({
-                  ...tenderFormData,
-                  company: e.target.value
-                })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="ООО «Ваша компания»" />
+                ...tenderFormData,
+                company: e.target.value
+              })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="ООО «Ваша компания»" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Контактное лицо</label>
                     <input type="text" required value={tenderFormData.contactPerson} onChange={e => setTenderFormData({
-                    ...tenderFormData,
-                    contactPerson: e.target.value
-                  })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="Иван Иванов" />
+                  ...tenderFormData,
+                  contactPerson: e.target.value
+                })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="Иван Иванов" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Телефон</label>
                     <input type="tel" required value={tenderFormData.phone} onChange={e => setTenderFormData({
-                    ...tenderFormData,
-                    phone: e.target.value
-                  })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="+7 (___) ___-__-__" />
+                  ...tenderFormData,
+                  phone: e.target.value
+                })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="+7 (___) ___-__-__" />
                   </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Email</label>
                   <input type="email" required value={tenderFormData.email} onChange={e => setTenderFormData({
-                  ...tenderFormData,
-                  email: e.target.value
-                })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="example@mail.ru" />
+                ...tenderFormData,
+                email: e.target.value
+              })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="example@mail.ru" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">
                     Номер/название тендера
                   </label>
                   <input type="text" required value={tenderFormData.tenderNumber} onChange={e => setTenderFormData({
-                  ...tenderFormData,
-                  tenderNumber: e.target.value
-                })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="№12345 или название закупки" />
+                ...tenderFormData,
+                tenderNumber: e.target.value
+              })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="№12345 или название закупки" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">
@@ -705,9 +682,9 @@ function Index() {
                   <div className="relative">
                     <Link size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                     <input type="url" value={tenderFormData.tenderLink} onChange={e => setTenderFormData({
-                    ...tenderFormData,
-                    tenderLink: e.target.value
-                  })} className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="https://..." />
+                  ...tenderFormData,
+                  tenderLink: e.target.value
+                })} className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="https://..." />
                   </div>
                 </div>
                 <div>
@@ -715,9 +692,9 @@ function Index() {
                     Комментарий <span className="text-slate-400">(опционально)</span>
                   </label>
                   <textarea rows={2} value={tenderFormData.comment} onChange={e => setTenderFormData({
-                  ...tenderFormData,
-                  comment: e.target.value
-                })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="Дополнительная информация..."></textarea>
+                ...tenderFormData,
+                comment: e.target.value
+              })} className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all outline-none" placeholder="Дополнительная информация..."></textarea>
                 </div>
                 {tenderFormStatus === FormStatus.ERROR && <div className="text-red-500 text-sm text-center">
                     Произошла ошибка. Попробуйте снова.
@@ -725,8 +702,7 @@ function Index() {
                 <button type="submit" disabled={tenderFormStatus === FormStatus.SUBMITTING || tenderFormStatus === FormStatus.SUCCESS} className={`w-full py-4 rounded-lg font-bold text-white transition-all transform hover:-translate-y-1 shadow-lg ${tenderFormStatus === FormStatus.SUCCESS ? 'bg-green-500 hover:bg-green-600' : 'bg-brand-primary hover:bg-blue-700'}`}>
                   {tenderFormStatus === FormStatus.SUBMITTING ? 'Отправка...' : tenderFormStatus === FormStatus.SUCCESS ? 'Приглашение отправлено!' : 'Пригласить на тендер'}
                 </button>
-              </form>
-            )}
+              </form>}
           </div>
         </div>
       </Section>
