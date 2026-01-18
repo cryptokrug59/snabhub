@@ -5,6 +5,7 @@ import AnimatedBackground from '@/components/AnimatedBackground';
 import Section from '@/components/ui/Section';
 import SnabHubLogo from '@/components/SnabHubLogo';
 import ReviewsCarousel from '@/components/ReviewsCarousel';
+import AIChatbot from '@/components/AIChatbot';
 import { FormStatus } from '@/types';
 import { supabase } from '@/integrations/supabase/client';
 function Index() {
@@ -775,6 +776,7 @@ function Index() {
           </div>
         </div>
       </footer>
+      <AIChatbot />
     </div>;
 }
 export default Index;
