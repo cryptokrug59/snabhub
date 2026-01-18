@@ -6,6 +6,7 @@ import Section from '@/components/ui/Section';
 import SnabHubLogo from '@/components/SnabHubLogo';
 import ReviewsCarousel from '@/components/ReviewsCarousel';
 import { FormStatus } from '@/types';
+import { supabase } from '@/integrations/supabase/client';
 function Index() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [formStatus, setFormStatus] = useState<FormStatus>(FormStatus.IDLE);
@@ -35,10 +36,23 @@ function Index() {
     }
     setIsMenuOpen(false);
   };
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormStatus(FormStatus.SUBMITTING);
-    setTimeout(() => {
+    
+    try {
+      const { data, error } = await supabase.functions.invoke('send-telegram', {
+        body: {
+          type: 'request',
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          request: formData.request
+        }
+      });
+
+      if (error) throw error;
+
       setFormStatus(FormStatus.SUCCESS);
       setFormData({
         name: '',
@@ -46,12 +60,32 @@ function Index() {
         email: '',
         request: ''
       });
-    }, 1500);
+    } catch (error) {
+      console.error('Error sending form:', error);
+      setFormStatus(FormStatus.ERROR);
+    }
   };
-  const handleTenderSubmit = (e: React.FormEvent) => {
+
+  const handleTenderSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setTenderFormStatus(FormStatus.SUBMITTING);
-    setTimeout(() => {
+    
+    try {
+      const { data, error } = await supabase.functions.invoke('send-telegram', {
+        body: {
+          type: 'tender',
+          company: tenderFormData.company,
+          contactPerson: tenderFormData.contactPerson,
+          email: tenderFormData.email,
+          phone: tenderFormData.phone,
+          tenderNumber: tenderFormData.tenderNumber,
+          tenderLink: tenderFormData.tenderLink,
+          comment: tenderFormData.comment
+        }
+      });
+
+      if (error) throw error;
+
       setTenderFormStatus(FormStatus.SUCCESS);
       setTenderFormData({
         company: '',
@@ -62,7 +96,10 @@ function Index() {
         tenderLink: '',
         comment: ''
       });
-    }, 1500);
+    } catch (error) {
+      console.error('Error sending tender form:', error);
+      setTenderFormStatus(FormStatus.ERROR);
+    }
   };
   const fadeInUp = {
     initial: {
