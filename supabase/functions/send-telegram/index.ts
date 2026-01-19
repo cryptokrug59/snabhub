@@ -5,6 +5,8 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+const SHEETDB_URL = "https://sheetdb.io/api/v1/brbdihyizfzvy";
+
 interface RequestFormData {
   type: 'request';
   name: string;
@@ -47,6 +49,58 @@ const formatTenderMessage = (data: TenderFormData): string => {
 💬 *Комментарий:* ${data.comment || 'Не указан'}`;
 };
 
+const sendToSheetDB = async (formData: FormData): Promise<void> => {
+  const now = new Date().toISOString();
+  
+  let sheetData: Record<string, string>;
+  
+  if (formData.type === 'request') {
+    sheetData = {
+      created_at: now,
+      name: formData.name || '',
+      phone: formData.phone || '',
+      email: formData.email || '',
+      message: formData.request || '',
+      session_id: '',
+      user_message: '',
+      ai_answer: '',
+      source: 'form'
+    };
+  } else {
+    // Tender form - combine all data into message field
+    sheetData = {
+      created_at: now,
+      name: formData.contactPerson || '',
+      phone: formData.phone || '',
+      email: formData.email || '',
+      message: `Организация: ${formData.company}, Тендер: ${formData.tenderNumber || 'N/A'}, Ссылка: ${formData.tenderLink || 'N/A'}, Комментарий: ${formData.comment || 'N/A'}`,
+      session_id: '',
+      user_message: '',
+      ai_answer: '',
+      source: 'form_tender'
+    };
+  }
+
+  try {
+    const response = await fetch(SHEETDB_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data: [sheetData] }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("SheetDB error:", errorText);
+    } else {
+      console.log("Data sent to SheetDB successfully");
+    }
+  } catch (error) {
+    console.error("Failed to send to SheetDB:", error);
+  }
+};
+
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -64,6 +118,9 @@ const handler = async (req: Request): Promise<Response> => {
 
     const formData: FormData = await req.json();
     console.log("Received form data:", formData);
+
+    // Send to SheetDB first
+    await sendToSheetDB(formData);
 
     let message: string;
     if (formData.type === 'tender') {
@@ -95,7 +152,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     return new Response(
-      JSON.stringify({ success: true, message: "Message sent to Telegram" }),
+      JSON.stringify({ success: true, message: "Message sent to Telegram and SheetDB" }),
       {
         status: 200,
         headers: { "Content-Type": "application/json", ...corsHeaders },

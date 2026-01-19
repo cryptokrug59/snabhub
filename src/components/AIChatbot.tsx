@@ -8,6 +8,11 @@ interface Message {
   content: string;
 }
 
+// Generate unique session ID for SheetDB tracking
+const generateSessionId = (): string => {
+  return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+};
+
 const AIChatbot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
@@ -18,6 +23,7 @@ const AIChatbot: React.FC = () => {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [sessionId] = useState(() => generateSessionId());
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -39,7 +45,7 @@ const AIChatbot: React.FC = () => {
 
     try {
       const { data, error } = await supabase.functions.invoke('ai-chat', {
-        body: { messages: newMessages }
+        body: { messages: newMessages, sessionId }
       });
 
       if (error) throw error;

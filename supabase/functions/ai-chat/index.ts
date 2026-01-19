@@ -5,6 +5,8 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+const SHEETDB_URL = "https://sheetdb.io/api/v1/brbdihyizfzvy";
+
 const SYSTEM_PROMPT = `Ты — AI-консультант компании СнабХаб-Групп, эксперт по комплексному снабжению строительных и промышленных предприятий.
 
 Твои знания включают:
@@ -31,7 +33,47 @@ interface Message {
 
 interface ChatRequest {
   messages: Message[];
+  sessionId?: string;
 }
+
+const sendToSheetDB = async (
+  sessionId: string,
+  userMessage: string,
+  aiAnswer: string
+): Promise<void> => {
+  const now = new Date().toISOString();
+  
+  const sheetData = {
+    created_at: now,
+    name: '',
+    phone: '',
+    email: '',
+    message: '',
+    session_id: sessionId,
+    user_message: userMessage,
+    ai_answer: aiAnswer,
+    source: 'AI'
+  };
+
+  try {
+    const response = await fetch(SHEETDB_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data: [sheetData] }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("SheetDB error:", errorText);
+    } else {
+      console.log("AI chat data sent to SheetDB successfully");
+    }
+  } catch (error) {
+    console.error("Failed to send to SheetDB:", error);
+  }
+};
 
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
@@ -46,8 +88,11 @@ const handler = async (req: Request): Promise<Response> => {
       throw new Error("AI service not configured");
     }
 
-    const { messages }: ChatRequest = await req.json();
+    const { messages, sessionId }: ChatRequest = await req.json();
     console.log("Received messages:", messages.length);
+
+    // Get the last user message
+    const lastUserMessage = messages.filter(m => m.role === 'user').pop();
 
     const aiMessages = [
       { role: "system", content: SYSTEM_PROMPT },
@@ -78,6 +123,11 @@ const handler = async (req: Request): Promise<Response> => {
     const assistantMessage = data.choices[0]?.message?.content || "Извините, не удалось получить ответ.";
 
     console.log("AI response received");
+
+    // Send to SheetDB (non-blocking, we don't wait for it)
+    if (lastUserMessage && sessionId) {
+      sendToSheetDB(sessionId, lastUserMessage.content, assistantMessage);
+    }
 
     return new Response(
       JSON.stringify({ message: assistantMessage }),
