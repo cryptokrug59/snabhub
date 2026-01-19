@@ -316,10 +316,24 @@ function Index() {
       </Section>
 
       {/* 3. Solution Proposal */}
-      <Section variant="dark" diagonal="both" className="relative">
+      <Section variant="dark" diagonal="both" className="relative overflow-hidden">
         <div className="absolute top-0 right-0 p-32 opacity-5 pointer-events-none">
           <Truck size={400} />
         </div>
+        
+        {/* Animated truck driving across the page */}
+        <motion.div
+          className="absolute bottom-8 z-10 pointer-events-none"
+          initial={{ x: '-150px' }}
+          whileInView={{ x: 'calc(100vw + 150px)' }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 8, ease: 'linear', repeat: Infinity, repeatDelay: 2 }}
+        >
+          <div className="flex items-end">
+            <Truck size={80} className="text-brand-accent drop-shadow-lg" style={{ transform: 'scaleX(-1)' }} />
+          </div>
+        </motion.div>
+        
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <motion.div {...fadeInUp}>
             <h2 className="text-3xl md:text-5xl font-extrabold mb-6">
