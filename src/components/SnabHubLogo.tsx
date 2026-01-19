@@ -1,4 +1,4 @@
-import logo from '@/assets/logo.svg';
+import logo from '@/assets/logo.png';
 interface SnabHubLogoProps {
   className?: string;
   variant?: 'dark' | 'light';
