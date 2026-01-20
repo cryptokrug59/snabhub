@@ -323,11 +323,16 @@ function Index() {
         
         {/* Animated truck driving across the page */}
         <motion.div
-          className="absolute bottom-8 z-10 pointer-events-none"
-          initial={{ x: '-150px' }}
-          whileInView={{ x: 'calc(100vw + 150px)' }}
-          viewport={{ once: false, amount: 0.3 }}
-          transition={{ duration: 8, ease: 'linear', repeat: Infinity, repeatDelay: 2 }}
+          className="absolute bottom-8 left-0 z-10 pointer-events-none"
+          animate={{ 
+            x: ['calc(-150px)', 'calc(100vw + 150px)']
+          }}
+          transition={{ 
+            duration: 10, 
+            ease: 'linear', 
+            repeat: Infinity, 
+            repeatDelay: 3
+          }}
         >
           <div className="flex items-end">
             <Truck size={80} className="text-brand-accent drop-shadow-lg" style={{ transform: 'scaleX(-1)' }} />
