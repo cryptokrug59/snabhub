@@ -131,28 +131,96 @@ function Index() {
             transition={{ duration: 1 }}
             className="relative hidden md:flex items-center justify-center"
           >
-            <div className="absolute w-[420px] h-[420px] rounded-3xl bg-slate-800/70 backdrop-blur-md border border-white/10 shadow-2xl" />
+            {/* Animated background card with pulse */}
+            <motion.div 
+              className="absolute w-[420px] h-[420px] rounded-3xl bg-slate-800/70 backdrop-blur-md border border-white/10 shadow-2xl"
+              animate={{ 
+                boxShadow: [
+                  '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                  '0 25px 80px -12px rgba(59, 130, 246, 0.3)',
+                  '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+                ]
+              }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            />
 
             <div className="relative z-10 text-center">
-              <div className="text-6xl font-extrabold mb-2">100%</div>
-              <div className="uppercase tracking-widest text-slate-300 text-sm mb-4">
+              {/* Animated 100% with glow */}
+              <motion.div 
+                className="text-6xl font-extrabold mb-2"
+                animate={{ 
+                  textShadow: [
+                    '0 0 20px rgba(255, 255, 255, 0)',
+                    '0 0 40px rgba(255, 255, 255, 0.5)',
+                    '0 0 20px rgba(255, 255, 255, 0)'
+                  ]
+                }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              >
+                100%
+              </motion.div>
+              
+              <motion.div 
+                className="uppercase tracking-widest text-slate-300 text-sm mb-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5, duration: 0.8 }}
+              >
                 Комплектация объектов
-              </div>
-              <div className="h-1 w-16 bg-brand-accent mx-auto rounded-full mb-6" />
-              <div className="inline-flex items-center gap-2 bg-brand-primary px-5 py-2 rounded-full text-sm font-semibold shadow-lg">
+              </motion.div>
+              
+              {/* Animated accent bar */}
+              <motion.div 
+                className="h-1 w-16 bg-brand-accent mx-auto rounded-full mb-6"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ delay: 0.8, duration: 0.6, ease: "easeOut" }}
+              />
+              
+              {/* Pulsing badge */}
+              <motion.div 
+                className="inline-flex items-center gap-2 bg-brand-primary px-5 py-2 rounded-full text-sm font-semibold shadow-lg"
+                animate={{ 
+                  scale: [1, 1.05, 1],
+                  boxShadow: [
+                    '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                    '0 20px 25px -5px rgba(59, 130, 246, 0.4)',
+                    '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                  ]
+                }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+              >
                 📦 5000+ позиций
-              </div>
+              </motion.div>
             </div>
 
-            <div className="absolute top-8 right-8 bg-white text-slate-900 px-5 py-3 rounded-xl shadow-lg flex items-center gap-3">
-              <span className="w-8 h-8 flex items-center justify-center rounded-full bg-green-100 text-green-600">
+            {/* Floating notification card */}
+            <motion.div 
+              className="absolute top-8 right-8 bg-white text-slate-900 px-5 py-3 rounded-xl shadow-lg flex items-center gap-3"
+              initial={{ opacity: 0, x: 50, y: -20 }}
+              animate={{ 
+                opacity: 1, 
+                x: 0, 
+                y: [0, -8, 0]
+              }}
+              transition={{ 
+                opacity: { delay: 1.2, duration: 0.6 },
+                x: { delay: 1.2, duration: 0.6 },
+                y: { delay: 2, duration: 3, repeat: Infinity, ease: "easeInOut" }
+              }}
+            >
+              <motion.span 
+                className="w-8 h-8 flex items-center justify-center rounded-full bg-green-100 text-green-600"
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity, delay: 2.5 }}
+              >
                 ✓
-              </span>
+              </motion.span>
               <div className="text-sm">
                 <div className="text-xs text-slate-400">Заявка #4829</div>
                 <div className="font-semibold">Отгружено в срок</div>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
 
         </div>
