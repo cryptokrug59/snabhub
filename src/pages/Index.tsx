@@ -16,6 +16,7 @@ import Section from '@/components/ui/Section';
 import SnabHubLogo from '@/components/SnabHubLogo';
 import ReviewsCarousel from '@/components/ReviewsCarousel';
 import AIChatbot from '@/components/AIChatbot';
+import CraneAnimation from '@/components/CraneAnimation';
 import { FormStatus } from '@/types';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -131,6 +132,8 @@ function Index() {
             transition={{ duration: 1 }}
             className="relative hidden md:flex items-center justify-center"
           >
+            {/* Crane Animation Background */}
+            <CraneAnimation />
             {/* Animated background card with pulse */}
             <motion.div 
               className="absolute w-[420px] h-[420px] rounded-3xl bg-slate-800/70 backdrop-blur-md border border-white/10 shadow-2xl"
