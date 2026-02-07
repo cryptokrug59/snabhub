@@ -269,6 +269,70 @@ function Index() {
       <Section id="reviews" variant="white">
         <ReviewsCarousel />
       </Section>
+      {/* CONTACT / REQUEST FORM */}
+<Section id="contact" variant="gray">
+  <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow">
+    <h2 className="text-3xl font-bold mb-6 text-center">
+      Оставить заявку
+    </h2>
+
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <input
+        type="text"
+        placeholder="Ваше имя"
+        value={formData.name}
+        onChange={e => setFormData({ ...formData, name: e.target.value })}
+        required
+        className="w-full border px-4 py-3 rounded-lg"
+      />
+
+      <input
+        type="tel"
+        placeholder="Телефон"
+        value={formData.phone}
+        onChange={e => setFormData({ ...formData, phone: e.target.value })}
+        required
+        className="w-full border px-4 py-3 rounded-lg"
+      />
+
+      <input
+        type="email"
+        placeholder="Email"
+        value={formData.email}
+        onChange={e => setFormData({ ...formData, email: e.target.value })}
+        className="w-full border px-4 py-3 rounded-lg"
+      />
+
+      <textarea
+        placeholder="Опишите вашу задачу"
+        value={formData.request}
+        onChange={e => setFormData({ ...formData, request: e.target.value })}
+        required
+        className="w-full border px-4 py-3 rounded-lg min-h-[120px]"
+      />
+
+      <button
+        type="submit"
+        className="w-full bg-brand-primary text-white py-3 rounded-lg font-bold"
+        disabled={formStatus === FormStatus.SUBMITTING}
+      >
+        Отправить заявку
+      </button>
+
+      {formStatus === FormStatus.SUCCESS && (
+        <p className="text-green-600 text-center">
+          Заявка отправлена! Мы свяжемся с вами.
+        </p>
+      )}
+
+      {formStatus === FormStatus.ERROR && (
+        <p className="text-red-600 text-center">
+          Ошибка отправки. Попробуйте позже.
+        </p>
+      )}
+    </form>
+  </div>
+</Section>
 
       <footer className="bg-brand-dark text-slate-400 py-10 text-center">
         © {new Date().getFullYear()} СнабХаб-Групп
