@@ -1,28 +1,35 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Truck, Hammer, FileCheck, Package, Wrench, Shield, Droplets, HardHat } from 'lucide-react';
-
 const ServicesDirections = () => {
-  return (
-    <div className="space-y-8">
+  return <div className="space-y-8">
       {/* Header */}
       <div className="text-center mb-12">
-        <motion.h2 
-          className="text-4xl md:text-5xl font-bold text-white mb-4"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
+        <motion.h2 className="text-4xl md:text-5xl font-bold text-white mb-4" initial={{
+        opacity: 0,
+        y: 20
+      }} whileInView={{
+        opacity: 1,
+        y: 0
+      }} viewport={{
+        once: true
+      }} transition={{
+        duration: 0.6
+      }}>
           Наши направления
         </motion.h2>
-        <motion.p 
-          className="text-slate-400 text-lg"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >
+        <motion.p className="text-slate-400 text-lg" initial={{
+        opacity: 0,
+        y: 20
+      }} whileInView={{
+        opacity: 1,
+        y: 0
+      }} viewport={{
+        once: true
+      }} transition={{
+        duration: 0.6,
+        delay: 0.1
+      }}>
           Ключевой профиль — комплексное снабжение предприятий и подрядчиков
         </motion.p>
       </div>
@@ -31,13 +38,18 @@ const ServicesDirections = () => {
       <div className="grid lg:grid-cols-2 gap-6">
         
         {/* Main Card - Комплексное снабжение */}
-        <motion.div 
-          className="lg:row-span-2 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm rounded-2xl p-8 border border-brand-primary/30 shadow-xl shadow-brand-primary/10"
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
+        <motion.div className="lg:row-span-2 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm rounded-2xl p-8 border border-brand-primary/30 shadow-xl shadow-brand-primary/10" initial={{
+        opacity: 0,
+        x: -40
+      }} whileInView={{
+        opacity: 1,
+        x: 0
+      }} viewport={{
+        once: true
+      }} transition={{
+        duration: 0.6,
+        delay: 0.2
+      }}>
           <div className="flex items-center gap-4 mb-6">
             <div className="w-14 h-14 rounded-xl bg-brand-primary/20 flex items-center justify-center">
               <Truck className="w-7 h-7 text-brand-primary" />
@@ -78,19 +90,24 @@ const ServicesDirections = () => {
           <div className="mt-8 pt-6 border-t border-slate-700/50">
             <div className="flex items-center gap-3">
               <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-slate-400 text-sm">Более 5000 позиций на складе</span>
+              
             </div>
           </div>
         </motion.div>
 
         {/* Secondary Card - Строительство и Ремонт */}
-        <motion.div 
-          className="bg-slate-800/60 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50"
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
+        <motion.div className="bg-slate-800/60 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50" initial={{
+        opacity: 0,
+        x: 40
+      }} whileInView={{
+        opacity: 1,
+        x: 0
+      }} viewport={{
+        once: true
+      }} transition={{
+        duration: 0.6,
+        delay: 0.3
+      }}>
           <div className="flex items-center gap-4 mb-5">
             <div className="w-12 h-12 rounded-xl bg-slate-700/50 flex items-center justify-center">
               <Hammer className="w-6 h-6 text-slate-300" />
@@ -128,13 +145,18 @@ const ServicesDirections = () => {
         </motion.div>
 
         {/* Tertiary Card - Тендерное сопровождение */}
-        <motion.div 
-          className="bg-slate-800/60 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50"
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
+        <motion.div className="bg-slate-800/60 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50" initial={{
+        opacity: 0,
+        x: 40
+      }} whileInView={{
+        opacity: 1,
+        x: 0
+      }} viewport={{
+        once: true
+      }} transition={{
+        duration: 0.6,
+        delay: 0.4
+      }}>
           <div className="flex items-center gap-4 mb-5">
             <div className="w-12 h-12 rounded-xl bg-slate-700/50 flex items-center justify-center">
               <FileCheck className="w-6 h-6 text-slate-300" />
@@ -175,8 +197,6 @@ const ServicesDirections = () => {
         </motion.div>
 
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default ServicesDirections;
