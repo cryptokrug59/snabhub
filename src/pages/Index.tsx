@@ -1,22 +1,34 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Hammer, Truck, AlertTriangle, Menu, X, Clock, TrendingUp, FileCheck } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import Section from '@/components/ui/Section';
 import SnabHubLogo from '@/components/SnabHubLogo';
 import ReviewsCarousel from '@/components/ReviewsCarousel';
 import AIChatbot from '@/components/AIChatbot';
 import CraneAnimation from '@/components/CraneAnimation';
+import ServicesDirections from '@/components/ServicesDirections';
 import { FormStatus } from '@/types';
 import { supabase } from '@/integrations/supabase/client';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 function Index() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [formStatus, setFormStatus] = useState<FormStatus>(FormStatus.IDLE);
+  const [tenderFormStatus, setTenderFormStatus] = useState<FormStatus>(FormStatus.IDLE);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
     email: '',
     request: ''
+  });
+  const [tenderFormData, setTenderFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    tenderNumber: '',
+    tenderLink: '',
+    comment: ''
   });
   const handleScroll = (id: string) => {
     const el = document.getElementById(id);
@@ -47,6 +59,31 @@ function Index() {
       });
     } catch {
       setFormStatus(FormStatus.ERROR);
+    }
+  };
+
+  const handleTenderSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setTenderFormStatus(FormStatus.SUBMITTING);
+    try {
+      const { error } = await supabase.functions.invoke('send-telegram', {
+        body: {
+          type: 'tender',
+          ...tenderFormData
+        }
+      });
+      if (error) throw error;
+      setTenderFormStatus(FormStatus.SUCCESS);
+      setTenderFormData({
+        name: '',
+        phone: '',
+        email: '',
+        tenderNumber: '',
+        tenderLink: '',
+        comment: ''
+      });
+    } catch {
+      setTenderFormStatus(FormStatus.ERROR);
     }
   };
   return <div className="min-h-screen bg-slate-50 font-sans">
@@ -246,93 +283,148 @@ function Index() {
         </div>
       </section>
 
-      {/* PROBLEMS */}
-      <Section variant="gray">
-        <div className="grid md:grid-cols-3 gap-8">
-          {[{
-          icon: <Clock />,
-          title: 'Срывы сроков'
-        }, {
-          icon: <AlertTriangle />,
-          title: 'Ошибки в поставках'
-        }, {
-          icon: <TrendingUp />,
-          title: 'Переплаты'
-        }].map((i, idx) => {})}
-        </div>
-      </Section>
-
+      {/* SERVICES / DIRECTIONS */}
       <Section id="services" variant="dark">
-        <div className="grid md:grid-cols-3 gap-8">
-          <ServiceCard icon={<Truck />} title="Снабжение" />
-          <ServiceCard icon={<Hammer />} title="Работы" />
-          <ServiceCard icon={<FileCheck />} title="Тендеры" />
-        </div>
+        <ServicesDirections />
       </Section>
 
       <Section id="reviews" variant="white">
         <ReviewsCarousel />
       </Section>
+
       {/* CONTACT / REQUEST FORM */}
-    <Section id="contact" variant="gray">
-  <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow">
-    <h2 className="text-3xl font-bold mb-6 text-center">
-      Оставить заявку
-    </h2>
+      <Section id="contact" variant="gray">
+        <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow">
+          <Tabs defaultValue="request" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-6">
+              <TabsTrigger value="request" className="text-sm font-semibold">
+                Оставить заявку
+              </TabsTrigger>
+              <TabsTrigger value="tender" className="text-sm font-semibold">
+                Пригласить на тендер
+              </TabsTrigger>
+            </TabsList>
 
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <input type="text" placeholder="Ваше имя" value={formData.name} onChange={e => setFormData({
-            ...formData,
-            name: e.target.value
-          })} required className="w-full border px-4 py-3 rounded-lg" />
+            <TabsContent value="request">
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <input
+                  type="text"
+                  placeholder="Ваше имя"
+                  value={formData.name}
+                  onChange={e => setFormData({ ...formData, name: e.target.value })}
+                  required
+                  className="w-full border border-slate-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                />
+                <input
+                  type="tel"
+                  placeholder="Телефон"
+                  value={formData.phone}
+                  onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                  required
+                  className="w-full border border-slate-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={e => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full border border-slate-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                />
+                <textarea
+                  placeholder="Опишите вашу задачу"
+                  value={formData.request}
+                  onChange={e => setFormData({ ...formData, request: e.target.value })}
+                  required
+                  className="w-full border border-slate-300 px-4 py-3 rounded-lg min-h-[120px] focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                />
+                <button
+                  type="submit"
+                  className="w-full bg-brand-primary text-white py-3 rounded-lg font-bold hover:bg-brand-primary/90 transition-colors"
+                  disabled={formStatus === FormStatus.SUBMITTING}
+                >
+                  {formStatus === FormStatus.SUBMITTING ? 'Отправка...' : 'Отправить заявку'}
+                </button>
+                {formStatus === FormStatus.SUCCESS && (
+                  <p className="text-green-600 text-center">Заявка отправлена! Мы свяжемся с вами.</p>
+                )}
+                {formStatus === FormStatus.ERROR && (
+                  <p className="text-red-600 text-center">Ошибка отправки. Попробуйте позже.</p>
+                )}
+              </form>
+            </TabsContent>
 
-      <input type="tel" placeholder="Телефон" value={formData.phone} onChange={e => setFormData({
-            ...formData,
-            phone: e.target.value
-          })} required className="w-full border px-4 py-3 rounded-lg" />
-
-      <input type="email" placeholder="Email" value={formData.email} onChange={e => setFormData({
-            ...formData,
-            email: e.target.value
-          })} className="w-full border px-4 py-3 rounded-lg" />
-
-      <textarea placeholder="Опишите вашу задачу" value={formData.request} onChange={e => setFormData({
-            ...formData,
-            request: e.target.value
-          })} required className="w-full border px-4 py-3 rounded-lg min-h-[120px]" />
-
-      <button type="submit" className="w-full bg-brand-primary text-white py-3 rounded-lg font-bold" disabled={formStatus === FormStatus.SUBMITTING}>
-        Отправить заявку
-      </button>
-
-      {formStatus === FormStatus.SUCCESS && <p className="text-green-600 text-center">
-          Заявка отправлена! Мы свяжемся с вами.
-        </p>}
-
-      {formStatus === FormStatus.ERROR && <p className="text-red-600 text-center">
-          Ошибка отправки. Попробуйте позже.
-        </p>}
-    </form>
-  </div>
-    </Section>
+            <TabsContent value="tender">
+              <form onSubmit={handleTenderSubmit} className="space-y-4">
+                <input
+                  type="text"
+                  placeholder="Ваше имя"
+                  value={tenderFormData.name}
+                  onChange={e => setTenderFormData({ ...tenderFormData, name: e.target.value })}
+                  required
+                  className="w-full border border-slate-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                />
+                <input
+                  type="tel"
+                  placeholder="Телефон"
+                  value={tenderFormData.phone}
+                  onChange={e => setTenderFormData({ ...tenderFormData, phone: e.target.value })}
+                  required
+                  className="w-full border border-slate-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={tenderFormData.email}
+                  onChange={e => setTenderFormData({ ...tenderFormData, email: e.target.value })}
+                  required
+                  className="w-full border border-slate-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                />
+                <input
+                  type="text"
+                  placeholder="Номер тендера / закупки"
+                  value={tenderFormData.tenderNumber}
+                  onChange={e => setTenderFormData({ ...tenderFormData, tenderNumber: e.target.value })}
+                  required
+                  className="w-full border border-slate-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                />
+                <input
+                  type="url"
+                  placeholder="Ссылка на тендер (необязательно)"
+                  value={tenderFormData.tenderLink}
+                  onChange={e => setTenderFormData({ ...tenderFormData, tenderLink: e.target.value })}
+                  className="w-full border border-slate-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                />
+                <textarea
+                  placeholder="Комментарий"
+                  value={tenderFormData.comment}
+                  onChange={e => setTenderFormData({ ...tenderFormData, comment: e.target.value })}
+                  className="w-full border border-slate-300 px-4 py-3 rounded-lg min-h-[100px] focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                />
+                <button
+                  type="submit"
+                  className="w-full bg-brand-accent text-brand-dark py-3 rounded-lg font-bold hover:bg-brand-accent/90 transition-colors"
+                  disabled={tenderFormStatus === FormStatus.SUBMITTING}
+                >
+                  {tenderFormStatus === FormStatus.SUBMITTING ? 'Отправка...' : 'Пригласить на тендер'}
+                </button>
+                {tenderFormStatus === FormStatus.SUCCESS && (
+                  <p className="text-green-600 text-center">Приглашение отправлено! Мы свяжемся с вами.</p>
+                )}
+                {tenderFormStatus === FormStatus.ERROR && (
+                  <p className="text-red-600 text-center">Ошибка отправки. Попробуйте позже.</p>
+                )}
+              </form>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </Section>
 
       <footer className="bg-brand-dark text-slate-400 py-10 text-center">
         © {new Date().getFullYear()} СнабХаб-Групп
       </footer>
 
       <AIChatbot />
-    </div>;
+    </div>
 }
-function ServiceCard({
-  icon,
-  title
-}: {
-  icon: React.ReactNode;
-  title: string;
-}) {
-  return <div className="bg-slate-800 p-8 rounded-xl text-center">
-      <div className="mb-4 text-brand-accent">{icon}</div>
-      <h3 className="text-xl font-bold text-white">{title}</h3>
-    </div>;
-}
+
 export default Index;
