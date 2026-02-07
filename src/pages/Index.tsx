@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Hammer,
-  Truck,
   AlertTriangle,
   Menu,
   X,
   Clock,
-  TrendingUp,
-  FileCheck
+  TrendingUp
 } from 'lucide-react';
 
 import AnimatedBackground from '@/components/AnimatedBackground';
+import ServicesDirections from '@/components/ServicesDirections';
 import Section from '@/components/ui/Section';
 import SnabHubLogo from '@/components/SnabHubLogo';
 import ReviewsCarousel from '@/components/ReviewsCarousel';
@@ -259,11 +257,7 @@ function Index() {
       </Section>
 
       <Section id="services" variant="dark">
-        <div className="grid md:grid-cols-3 gap-8">
-          <ServiceCard icon={<Truck />} title="Снабжение" />
-          <ServiceCard icon={<Hammer />} title="Работы" />
-          <ServiceCard icon={<FileCheck />} title="Тендеры" />
-        </div>
+        <ServicesDirections />
       </Section>
 
       <Section id="reviews" variant="white">
@@ -339,15 +333,6 @@ function Index() {
       </footer>
 
       <AIChatbot />
-    </div>
-  );
-}
-
-function ServiceCard({ icon, title }: { icon: React.ReactNode; title: string }) {
-  return (
-    <div className="bg-slate-800 p-8 rounded-xl text-center">
-      <div className="mb-4 text-brand-accent">{icon}</div>
-      <h3 className="text-xl font-bold text-white">{title}</h3>
     </div>
   );
 }
